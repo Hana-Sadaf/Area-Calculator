@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irregular Area Calculator</title>
+    <link rel="stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-image: url("https://cards.algoreducation.com/_next/image?url=https%3A%2F%2Ffiles.algoreducation.com%2Fproduction-ts%2F__S3__946942a0-7e16-4cd6-a874-0f53f03c7da4&w=3840&q=75");
+    /*
+    https://jscalc-blog.com/wp-content/uploads/2023/01/best-irregular-shape-area-calculator.png
+    https://images.examples.com/wp-content/uploads/2024/05/Geometry.png
+    */
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+    width: 100%;
+    position: fixed;
+    top: 0;
+}
+
+.container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #575757;
+    border-radius: 4px;
+}
+
+#irregular_area_calculator, #feedback, #area_calculator {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+    </style>
+</head>
+<body>
+    <!-- navigation bar  -->
+    <nav class="navbar">
+        <div class="container1">
+            <ul class="nav-links">
+                <li><a class="active" href="index.html">Area Calculator</a></li>
+                <li><a href="index2.html">Irregular Area Calculator</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- navigation bar ends -->
+    <div class="container">
+        <h1>Irregular Area Calculator</h1>
+        <form id="areaForm">
+            <div class="input-group">
+                <label for="coordinates">Enter coordinates (x,y) separated by spaces:</label>
+                <textarea id="coordinates" rows="5" placeholder="e.g., (0,0) (4,0) (4,3) (0,3)"></textarea>
+            </div>
+            <button type="button" onclick="calculateArea()">Calculate Area</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        function calculateArea() {
+    const coordinatesInput = document.getElementById('coordinates').value.trim();
+    if (!coordinatesInput) {
+        alert('Please enter coordinates.');
+        return;
+    }
+
+    const points = coordinatesInput.split(' ').map(coord => {
+        const [x, y] = coord.replace(/[()]/g, '').split(',').map(Number);
+        return { x, y };
+    });
+
+    if (points.length < 3) {
+        alert('At least three points are required to form a polygon.');
+        return;
+    }
+
+    let area = 0;
+    for (let i = 0; i < points.length; i++) {
+        const j = (i + 1) % points.length;
+        area += points[i].x * points[j].y;
+        area -= points[j].x * points[i].y;
+    }
+
+    area = Math.abs(area) / 2;
+
+    document.getElementById('result').innerText = `The area of the irregular shape is ${area.toFixed(2)} square units.`;
+}
+
+    </script>
+</body>
+</html>
